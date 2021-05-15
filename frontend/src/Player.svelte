@@ -2,18 +2,21 @@
   export let gender, level, name;
   export let deleteFunc = () => {
   };
-
+  export let plusFunc = () => {
+  };
+  export let minusFunc = () => {
+  };
   let focused = false;
 
   function plus() {
     if (level < 10) {
-      level++;
+      plusFunc()
     }
   }
 
   function minus() {
     if (level > 1) {
-      level--;
+      minusFunc()
     }
   }
 

@@ -9,12 +9,9 @@
   import Player from './Player.svelte';
   import axios from 'axios';
 
-  let players = [
-    {name: 'Игрок 1', level: 1, gender: 'male'},
-    {name: 'Игрок 2', level: 1, gender: 'female'},
-  ];
+  let players = [];
   let state = {};
-  let token = '';
+  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNjk4NTAzMzgzMjViZmViZjg2ZGVjYjAzZDkzZjkwZDQ2ZmMxNmNmZGZiNTUyMDAzNGQxOTFkMWEwYTQ4NDQyNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMTE1ODg2MywiaWF0IjoxNjIxMDcyNDUzLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiMTcyOTIzMmUtOTE2Mi00YjU2LTllOTMtMGQ2N2MxM2QzOWJjIiwic2lkIjoiODkxNDdhOTQtMjdiNy00NDY0LTk5ZDgtODZjMDNlZTkyMjgxIn0.ZYpJfZZIR3hnKBUpZfbjc3AcH45iUcph_OKpcWXbAKvuS-NFm5dSXXfx2h5zDqoFlA6i1FLJpWnx4QwIZI-Y98yaS5R38kCw85Ke3BInXnl056rYDX1LZWgyhBD9GeOdRxjJnkW6YOkwdkSjpxyk25K_dD-aVZ7mcLkTw2eMr1mjpIGpo-lO8HiKSCAjqK3F6IFIbDX-lvli0m48kcdspKIwAeDbevisLoikkI3JB1qwMiBXGlaBuZbAadB9fLkyan-Puhz3ee2u0FPgp26gfxUWXoeMMzWlnYyMJ7LVt-3MajYfjCBmmQd56GtFNp7WpCfsJEKYDBWA3UQ6Gj2qQRUOh8-1xVqgppl8ZGZOH4qjAlHCVx-b222lmoViqL4M0zZM_JWxwMjckXPZvrDX0aJc8E0kfNoMzeQ6lCzhQXFc2aJV9ukvFEVR7llOSZww1ysFRFCYCek90dPDzReqtdhDCJw7OqzQvPcJuh__GuU13JKLaGyPId8PMzJU4BdWIvIimCfAzldsoWDZf769LQWaemoB4VdvzWy3p2yYENcwtJbnKzMWvMFwtgqZJWVqIPwv3jvdDMWeaLPmNAvweuJA0h5MeUnhZCIdRAvEPxb5d5qKM7EShp7xWgwfAKoQRanmU9RnDyEhGlssvsI1JN15voRW8Q_ty-vlGjA8kAM';
   let initPhrase = 'Включи Манчкин'; // <- сюда вставляем активационную фразу своего canvas app
 
   function getState() {
@@ -27,17 +24,18 @@
     return state;
   }
 
+  let assistant;
   onMount(() => {
     const init = () => {
-    return createSmartappDebugger({
-      token,
-      initPhrase,
-      getState,
-      settings: {debugging: false}
-    })
-    // return createAssistant({getState});
+      return createSmartappDebugger({
+        token,
+        initPhrase,
+        getState,
+        settings: {debugging: false}
+      })
+      // return createAssistant({getState});
     }
-    let assistant = init();
+    assistant = init();
 
     assistant.on("start", (event) => {
       console.log(`assistant.on(start)`, event);
@@ -45,58 +43,37 @@
 
     assistant.on("data", (event) => {
       console.log('EVENT!!!', event);
-      let name, gender, level;
       switch (event.type) {
-        case 'add_player':
-          ({name, gender} = event.action);
-          addPlayer(name, gender);
+        case 'update_data':
+          players = event.action.players;
           break;
-
-        case 'set_level':
-          ({name, level} = event.action);
-          setLVL(name, level);
-          break;
-
-        // case
       }
     });
   })
 
   let newPlayer = '';
   $: newPlayer = newPlayer.charAt(0).toUpperCase() + newPlayer.slice(1);
-  function addPlayer(name, gender) {
-    players = [...players, {name, gender, level: 1}];
+
+  function addPlayer(name) {
+    assistant.sendAction({type: 'new_player', name})
   }
 
-  function setLVL(name, lvl){
-    let i = -1;
-    for (let player of players){
-      if (player.name === name){
-        players[players.indexOf(player)].level = lvl;
-        break;
-      }
-    }
+  function plusPlayer(name) {
+    assistant.sendAction({type: 'plus_player', name})
   }
 
+  function minusPlayer(name) {
+    assistant.sendAction({type: 'minus_player', name})
+  }
 
-  function deletePlayer(i) {
-    players = players.slice(0, i).concat(players.slice(i + 1))
+  function deletePlayer(name) {
+    assistant.sendAction({type: 'delete_player', name})
   }
 
   axios.defaults.withCredentials = true;
 
   async function handleClick() {
-    let gender;
-    try {
-      // let test = await axios.get('http://localhost:8000/test')
-      // console.log(test.data)
-      // let resp = await fetch('http://localhost:8000/gender', {method:'POST', body: JSON.stringify({name: newPlayer})}).then(r => r.json())
-      gender = (await axios.post('http://localhost:8000/gender', {name: newPlayer})).data.gender;
-    } catch (e) {
-      console.error(e);
-      gender = 'female';
-    }
-    addPlayer(newPlayer, gender);
+    addPlayer(newPlayer);
     newPlayer = '';
     input.focus()
   }
@@ -111,11 +88,16 @@
     <h1>Игроки</h1>
     <div class="list">
       {#each players as {name, level, gender}, i}
-        <Player bind:name bind:level bind:gender deleteFunc={() => deletePlayer(i)}/>
+        <Player bind:name bind:level bind:gender
+          deleteFunc={() => deletePlayer(name)}
+          plusFunc={() => plusPlayer(name)}
+          minusFunc={() => minusPlayer(name)}
+        />
       {/each}
     </div>
     <div class="add-block">
-      <input bind:this={input} bind:value={newPlayer} style="width: {(newPlayer.length) * 10}px" class="new-player-input" type="text">
+      <input bind:this={input} bind:value={newPlayer} style="width: {(newPlayer.length) * 10}px"
+             class="new-player-input" type="text">
       <button disabled={newPlayer.length === 0} class="new-player-button" on:click={handleClick}>
         Добавить
       </button>
