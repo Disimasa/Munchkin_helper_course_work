@@ -8,10 +8,9 @@
   import {createSmartappDebugger, createAssistant} from '@sberdevices/assistant-client'
   import Player from './Player.svelte';
   import axios from 'axios';
-
   let players = [];
   let state = {};
-  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzNjk4NTAzMzgzMjViZmViZjg2ZGVjYjAzZDkzZjkwZDQ2ZmMxNmNmZGZiNTUyMDAzNGQxOTFkMWEwYTQ4NDQyNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMTE1ODg2MywiaWF0IjoxNjIxMDcyNDUzLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiMTcyOTIzMmUtOTE2Mi00YjU2LTllOTMtMGQ2N2MxM2QzOWJjIiwic2lkIjoiODkxNDdhOTQtMjdiNy00NDY0LTk5ZDgtODZjMDNlZTkyMjgxIn0.ZYpJfZZIR3hnKBUpZfbjc3AcH45iUcph_OKpcWXbAKvuS-NFm5dSXXfx2h5zDqoFlA6i1FLJpWnx4QwIZI-Y98yaS5R38kCw85Ke3BInXnl056rYDX1LZWgyhBD9GeOdRxjJnkW6YOkwdkSjpxyk25K_dD-aVZ7mcLkTw2eMr1mjpIGpo-lO8HiKSCAjqK3F6IFIbDX-lvli0m48kcdspKIwAeDbevisLoikkI3JB1qwMiBXGlaBuZbAadB9fLkyan-Puhz3ee2u0FPgp26gfxUWXoeMMzWlnYyMJ7LVt-3MajYfjCBmmQd56GtFNp7WpCfsJEKYDBWA3UQ6Gj2qQRUOh8-1xVqgppl8ZGZOH4qjAlHCVx-b222lmoViqL4M0zZM_JWxwMjckXPZvrDX0aJc8E0kfNoMzeQ6lCzhQXFc2aJV9ukvFEVR7llOSZww1ysFRFCYCek90dPDzReqtdhDCJw7OqzQvPcJuh__GuU13JKLaGyPId8PMzJU4BdWIvIimCfAzldsoWDZf769LQWaemoB4VdvzWy3p2yYENcwtJbnKzMWvMFwtgqZJWVqIPwv3jvdDMWeaLPmNAvweuJA0h5MeUnhZCIdRAvEPxb5d5qKM7EShp7xWgwfAKoQRanmU9RnDyEhGlssvsI1JN15voRW8Q_ty-vlGjA8kAM';
+  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTBlNGU0NjkwNDUzNmZhNTgyYmVhNjU4MDNhYmI5M2VlZjQ3NGVlYTZmNjI1M2IxZDM5ODQ1ZTRhOTYzMDhlNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMTYwNzUyMywiaWF0IjoxNjIxNTIxMTEzLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiNjE2Y2ZiNmUtYzllMS00NjVjLTg2ZDktMGY3MjRhZDRhZjVkIiwic2lkIjoiMGYxMTRkNjgtMjhjMS00ZDk0LTk1MmItZDQ1YzcyYzcwZjg0In0.WCFnorxEHpIh0wZCps63VLNnDkiGOIsys-Y7zFVVes2kg8-jJeKaXquFfjTzh1GstLAo5q7SIq4sRaorSpbasWVKc0yJxdjlu5ETCZA-NwgnPkr2UhW7BsYhM6HeC7hhvXkeCOjmZWsh4z5SmeGUKnDe-0klBdPSs9WverCDdGQRmYbCRBuRnPvZA-8lOuzUlvsxK3MAQl8XnjNgqhvKvswyuwexl80myKlKA3pztcDpPPFdjHTVoY4-sVLWQWcc9tfDZTYzGGnU_dfdbeWo2x4vUaZW7FJfX_0bRECd9CQ104LyasJ8fRQoKwyiXY9CMLCsS2JIijhX3rsr3KdJKyriMsJrhA7D3JNPZwvOdYmkN7FNfL9wzcVdPPvFizfScJb-3y6tHFMJh4tiwygm4tDP2NuEcpCIk8GUHHTRlstczkFwrd9Xs9UdWq5wnFIvFDJHNKZhXbE1NqvbEJ2R6eZBDGp729LBzspi7RkUfSJFKCe9eQQwpL5bbVNOO5IdrtDNAH4sKhhx6011sUqAjs1bUtB8400AzVqFF-4X-ySsXy8xnZ86CcA1lEFSbk40YiE72D1Ko8mVYMKLoXpbVyj3gJLJ1Fz9CEICH8EcmNPg279rTRU6mXs-g-1XPiSl9D0ICU9_EJNKULlM0ne2THllzxmt6DJGl7u7h7BLCvI';
   let initPhrase = 'Включи Манчкин'; // <- сюда вставляем активационную фразу своего canvas app
 
   function getState() {
@@ -43,10 +42,25 @@
 
     assistant.on("data", (event) => {
       console.log('EVENT!!!', event);
-      switch (event.type) {
-        case 'update_data':
-          players = event.action.players;
-          break;
+      switch (event.action.type) {
+        // case 'update_data':
+        //   players = event.action.players;
+        //   break;
+        case 'add_player':
+          addPlayer(event.action.name)
+        break;
+        case 'plus_points':
+          const ind = players.map((e) => {return e.name}).indexOf(event.action.name);
+          if (ind !== -1) {
+            plusPlayer(ind, event.action.points);
+          }
+        break;
+        case 'delete_player':
+          const deletedInd = players.map((e) => {return e.name}).indexOf(event.action.name);
+          console.log(deletedInd)
+          if (deletedInd !== -1) {
+            deletePlayer(deletedInd);
+          }
       }
     });
   })
@@ -55,19 +69,26 @@
   $: newPlayer = newPlayer.charAt(0).toUpperCase() + newPlayer.slice(1);
 
   function addPlayer(name) {
-    assistant.sendAction({type: 'new_player', name})
+    // assistant.sendAction({type: 'new_player', name})
+    players = [...players, {name, level: 1, gender: '?'}]
   }
 
-  function plusPlayer(name) {
-    assistant.sendAction({type: 'plus_player', name})
+  function plusPlayer(id, amount = 1) {
+    // assistant.sendAction({type: 'plus_player', name})
+    players[id].level+=Number(amount);
   }
 
-  function minusPlayer(name) {
-    assistant.sendAction({type: 'minus_player', name})
+  function minusPlayer(id, amount = 1) {
+    // assistant.sendAction({type: 'minus_player', name})
+    players[id].level-=amount;
   }
 
-  function deletePlayer(name) {
-    assistant.sendAction({type: 'delete_player', name})
+  function deletePlayer(id) {
+    // assistant.sendAction({type: 'delete_player', name})
+    players = [
+      ...players.slice(0, id),
+      ...players.slice(id + 1, players.length)
+    ]
   }
 
   axios.defaults.withCredentials = true;
@@ -89,9 +110,9 @@
     <div class="list">
       {#each players as {name, level, gender}, i}
         <Player bind:name bind:level bind:gender
-          deleteFunc={() => deletePlayer(name)}
-          plusFunc={() => plusPlayer(name)}
-          minusFunc={() => minusPlayer(name)}
+          deleteFunc={() => deletePlayer(i)}
+          plusFunc={() => plusPlayer(i)}
+          minusFunc={() => minusPlayer(i)}
         />
       {/each}
     </div>
