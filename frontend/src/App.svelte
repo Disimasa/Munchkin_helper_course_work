@@ -153,6 +153,7 @@
     display: grid;
     place-items: center;
     height: 100%;
+    background-color: #FFFFFF;
   }
 
   .list {
@@ -174,6 +175,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #FFFFFF;
   }
 
 
