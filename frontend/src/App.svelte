@@ -10,7 +10,7 @@
   import axios from 'axios';
   let players = [];
   let state = {};
-  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZTBlNGU0NjkwNDUzNmZhNTgyYmVhNjU4MDNhYmI5M2VlZjQ3NGVlYTZmNjI1M2IxZDM5ODQ1ZTRhOTYzMDhlNTM5YmU5MjcwMDQyNjI5OCIsImF1ZCI6IlZQUyIsImV4cCI6MTYyMTYwNzUyMywiaWF0IjoxNjIxNTIxMTEzLCJpc3MiOiJLRVlNQVNURVIiLCJ0eXBlIjoiQmVhcmVyIiwianRpIjoiNjE2Y2ZiNmUtYzllMS00NjVjLTg2ZDktMGY3MjRhZDRhZjVkIiwic2lkIjoiMGYxMTRkNjgtMjhjMS00ZDk0LTk1MmItZDQ1YzcyYzcwZjg0In0.WCFnorxEHpIh0wZCps63VLNnDkiGOIsys-Y7zFVVes2kg8-jJeKaXquFfjTzh1GstLAo5q7SIq4sRaorSpbasWVKc0yJxdjlu5ETCZA-NwgnPkr2UhW7BsYhM6HeC7hhvXkeCOjmZWsh4z5SmeGUKnDe-0klBdPSs9WverCDdGQRmYbCRBuRnPvZA-8lOuzUlvsxK3MAQl8XnjNgqhvKvswyuwexl80myKlKA3pztcDpPPFdjHTVoY4-sVLWQWcc9tfDZTYzGGnU_dfdbeWo2x4vUaZW7FJfX_0bRECd9CQ104LyasJ8fRQoKwyiXY9CMLCsS2JIijhX3rsr3KdJKyriMsJrhA7D3JNPZwvOdYmkN7FNfL9wzcVdPPvFizfScJb-3y6tHFMJh4tiwygm4tDP2NuEcpCIk8GUHHTRlstczkFwrd9Xs9UdWq5wnFIvFDJHNKZhXbE1NqvbEJ2R6eZBDGp729LBzspi7RkUfSJFKCe9eQQwpL5bbVNOO5IdrtDNAH4sKhhx6011sUqAjs1bUtB8400AzVqFF-4X-ySsXy8xnZ86CcA1lEFSbk40YiE72D1Ko8mVYMKLoXpbVyj3gJLJ1Fz9CEICH8EcmNPg279rTRU6mXs-g-1XPiSl9D0ICU9_EJNKULlM0ne2THllzxmt6DJGl7u7h7BLCvI';
+  let token = '';
   let initPhrase = 'Включи Манчкин'; // <- сюда вставляем активационную фразу своего canvas app
 
   function getState() {
@@ -26,13 +26,13 @@
   let assistant;
   onMount(() => {
     const init = () => {
-      return createSmartappDebugger({
-        token,
-        initPhrase,
-        getState,
-        settings: {debugging: false}
-      })
-      // return createAssistant({getState});
+      // return createSmartappDebugger({
+      //   token,
+      //   initPhrase,
+      //   getState,
+      //   settings: {debugging: false}
+      // })
+      return createAssistant({getState});
     }
     assistant = init();
 
