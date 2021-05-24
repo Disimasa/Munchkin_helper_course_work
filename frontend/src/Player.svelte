@@ -1,5 +1,6 @@
 <script>
   export let gender, level, name;
+  let refactoredName = name.charAt(0).toUpperCase() + name.slice(1);
   export let deleteFunc = () => {
   };
   export let plusFunc = () => {
@@ -30,13 +31,13 @@
 </script>
 
 <div class="player" on:mouseenter={focus} on:mouseleave={blur}>
-  <button class:hidden={!focused} class="delete-button" on:click={deleteFunc}>
+  <button class="delete-button" on:click={deleteFunc}>
     <svg width="30" height="30" class="delete-icon">
       <line x1="10" x2="20" y1="15" y2="15"></line>
       <line x1="15" x2="15" y1="10" y2="20"></line>
     </svg>
   </button>
-  <input type="text" class="name" bind:value={name} on:focus on:blur>
+  <input type="text" class="name" bind:value={refactoredName} on:focus on:blur>
   <button class="gndr-button" on:click={() => gender === 'male' ? gender = 'female': gender = 'male'}>
     {#if gender === 'male'}
       <img src="./icons/mars.svg" alt="Male">
