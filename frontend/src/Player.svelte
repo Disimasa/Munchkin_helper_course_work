@@ -1,10 +1,6 @@
 <script>
-  const trickyNames = ['Дим', 'Степ', 'Ир'];
   export let gender, level, name;
   let refactoredName = name.charAt(0).toUpperCase() + name.slice(1);
-  trickyNames.forEach((el) => {
-    if (el === refactoredName) refactoredName += 'а';
-  })
   export let deleteFunc = () => {
   };
   export let plusFunc = () => {

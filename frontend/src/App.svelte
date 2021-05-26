@@ -13,6 +13,8 @@
   let token = '';
   let initPhrase = 'Включи помощник для  Манчкина'; // <- сюда вставляем активационную фразу своего canvas app
 
+  const trickyNames = ['Дим', 'Степ', 'Ир'];
+
   function getState() {
     console.log("State was get");
     const state = {
@@ -80,6 +82,9 @@
 
   function addPlayer(name) {
     // assistant.sendAction({type: 'new_player', name})
+    trickyNames.forEach((el) => {
+      if (el === name) name += 'а';
+    })
     players = [...players, {name, level: 1, gender: '?'}]
   }
 
