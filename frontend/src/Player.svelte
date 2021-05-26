@@ -70,6 +70,10 @@
     cursor: pointer;
   }
 
+  button:hover {
+    border: 1px solid #333333;
+  }
+
   .hidden {
     opacity: 0;
   }
@@ -150,6 +154,11 @@
     margin-right: 5px;
     /*opacity: 0;*/
     transition: opacity 0.5s ease;
+  }
+
+  .delete-button:hover {
+    box-shadow: 0px 0px 3px 1px #EF2D56;
+    border-color: #EF2D56 !important;
   }
 
   .delete-icon {
