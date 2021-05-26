@@ -116,13 +116,13 @@
 <svelte:window on:keydown={(event) => {if (event.key === 'Enter' && newPlayer !== '') handleClick()}}/>
 <main>
   <div class="card">
-    <button id="help-button" on:click={() => {
-      assistant.sendAction({
-	"type": "sdk_answer",
-	"pronounceText": [
- 		"Работает!"
- 	]})
-    }}>?</button>
+<!--    <button id="help-button" on:click={() => {-->
+<!--      assistant.sendAction({-->
+<!--	"type": "sdk_answer",-->
+<!--	"pronounceText": [-->
+<!-- 		"Работает!"-->
+<!-- 	]})-->
+<!--    }}>?</button>-->
     <h1>Игроки</h1>
     <div class="list">
       {#each players as {name, level, gender}, i}
