@@ -13,7 +13,7 @@
   let token = '';
   let initPhrase = 'Включи помощник для  Манчкина'; // <- сюда вставляем активационную фразу своего canvas app
 
-  const trickyNames = ['Дим', 'Степ', 'Ир'];
+  const trickyNames = ['дим', 'степ', 'ир'];
 
   function getState() {
     console.log("State was get");
