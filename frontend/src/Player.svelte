@@ -45,13 +45,13 @@
       <img src="./icons/femenine.svg" alt="Female">
     {/if}
   </button>
-  <button class="minus lvl-button" disabled={level === 1} on:click={minus}>
+  <button class="minus lvl-button" on:click={minus}>
     <svg width="30" height="30">
       <line x1="10" x2="20" y1="15" y2="15"></line>
     </svg>
   </button>
   <p class="level">{level}</p>
-  <button class="plus lvl-button" disabled={level === 10} on:click={plus}>
+  <button class="plus lvl-button" on:click={plus}>
     <svg width="30" height="30">
       <line x1="10" x2="20" y1="15" y2="15"></line>
       <line x1="15" x2="15" y1="10" y2="20"></line>
