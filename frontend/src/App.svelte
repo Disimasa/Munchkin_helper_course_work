@@ -104,6 +104,7 @@
   axios.defaults.withCredentials = true;
 
   async function handleClick() {
+    newPlayer = newPlayer.charAt(0).toLowerCase() + newPlayer.slice(1);
     addPlayer(newPlayer);
     newPlayer = '';
     input.focus()
