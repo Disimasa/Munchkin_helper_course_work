@@ -26,12 +26,12 @@
   let assistant;
   onMount(() => {
     const init = () => {
-      // return createSmartappDebugger({
-      //   token,
-      //   initPhrase,
-      //   getState,
-      //   settings: {debugging: false}
-      // })
+    //   return createSmartappDebugger({
+    //     token,
+    //     initPhrase,
+    //     getState,
+    //     settings: {debugging: false}
+    //   })
       return createAssistant({getState});
     }
     assistant = init();
@@ -58,6 +58,7 @@
         case 'delete_player':
           const deletedInd = players.map((e) => {return e.name}).indexOf(event.action.name);
           console.log(deletedInd)
+            console.log(players)
           if (deletedInd !== -1) {
             deletePlayer(deletedInd);
           }
@@ -80,7 +81,7 @@
 
   function addPlayer(name) {
     // assistant.sendAction({type: 'new_player', name})
-    players = [...players, {name, level: 1, gender: '?'}]
+    players = [...players, {id: players.length, name: name, level: 1, gender: '?'}]
   }
 
   function plusPlayer(id, amount = 1) {
@@ -126,8 +127,8 @@
 <!--    }}>?</button>-->
     <h1>Игроки</h1>
     <div class="list">
-      {#each players as {name, level, gender}, i}
-        <Player bind:name bind:level bind:gender
+      {#each players as player, i (player.id)}
+        <Player bind:player
           deleteFunc={() => deletePlayer(i)}
           plusFunc={() => plusPlayer(i)}
           minusFunc={() => minusPlayer(i)}

@@ -1,6 +1,7 @@
 <script>
-  export let gender, level, name;
-  let refactoredName = name.charAt(0).toUpperCase() + name.slice(1);
+  export let player;
+
+  let refactoredName = player.name.charAt(0).toUpperCase() + player.name.slice(1);
   export let deleteFunc = () => {
   };
   export let plusFunc = () => {
@@ -10,13 +11,13 @@
   let focused = false;
 
   function plus() {
-    if (level < 10) {
+    if (player.level < 10) {
       plusFunc()
     }
   }
 
   function minus() {
-    if (level > 1) {
+    if (player.level > 1) {
       minusFunc()
     }
   }
@@ -37,9 +38,9 @@
       <line x1="15" x2="15" y1="10" y2="20"></line>
     </svg>
   </button>
-  <input type="text" class="name" bind:value={refactoredName} on:focus on:blur>
-  <button class="gndr-button" on:click={() => gender === 'male' ? gender = 'female': gender = 'male'}>
-    {#if gender === 'male'}
+  <input type="text" class="name" bind:value={refactoredName} on:focus on:blur readonly>
+  <button class="gndr-button" on:click={() => player.gender === 'male' ? player.gender = 'female': player.gender = 'male'}>
+    {#if player.gender === 'male'}
       <img src="./icons/mars.svg" alt="Male">
     {:else}
       <img src="./icons/femenine.svg" alt="Female">
@@ -50,7 +51,7 @@
       <line x1="10" x2="20" y1="15" y2="15"></line>
     </svg>
   </button>
-  <p class="level">{level}</p>
+  <p class="level">{player.level}</p>
   <button class="plus lvl-button" on:click={plus}>
     <svg width="30" height="30">
       <line x1="10" x2="20" y1="15" y2="15"></line>
